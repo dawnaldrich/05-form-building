@@ -73,43 +73,85 @@ articleView.setTeasers = () => {
   });
 };
 
-// COMMENT: Where is this function called? Why?
+
+
+// COMMENT: Where is this function called? Why?  which function?
 // PUT YOUR RESPONSE HERE
 articleView.initNewArticlePage = () => {
+  
   // TODO: Ensure the main .tab-content area is revealed. We might add more tabs later or otherwise edit the tab navigation.
+ 
+  $('.tab-content').show();
+    // TODO: The new articles we create will be copy/pasted into our source data file.
+    // Set up this "export" functionality. We can hide it for now, and show it once we have data to export
 
 
-  // TODO: The new articles we create will be copy/pasted into our source data file.
-  // Set up this "export" functionality. We can hide it for now, and show it once we have data to export.
+    $("#export-field").hide();
 
-  $('#article-json').on('focus', function(){
-    this.select();
-  });
+    $('#article-json').on('focus', function(){
+      this.select();
+    });
 
-  // TODO: Add an event handler to update the preview and the export field if any inputs change.
+  
+    // TODO: Add an event handler to update the preview and the export field if any inputs change.
 
-};
+    $("#new-form").on("focus", "input, textarea", function(){
+     
+      articleView.create();
+    });
+
+    
+  // 
+  };
+
+
 
 articleView.create = () => {
+  
   // TODO: Set up a variable to hold the new article we are creating.
-  // Clear out the #articles element, so we can put in the updated preview
+  // instantiate a new article 
+  // use handlebars to put it onto the dom
 
+   //  read throught article.js to see what it is doing regarding publishing
+
+  // Clear out the #articles element, so we can put in the updated preview
+  $('#articles').empty();
 
   // TODO: Instantiate an article based on what's in the form fields:
 
+  let article = new Article({
+    title: $('#article-title').val(),
+    author: $('#article-author').val(),
+    authorUrl:$('#article-URL').val(),
+    category:$('#article-category').val(),
+    body:$('#article-body').val(),
+    publsihedOn: $('#article-published:checked').length ? new Date(): null,
+  })
+  //let check = $('#article-published.checked');
 
   // TODO: Use our interface to the Handblebars template to put this new article into the DOM:
-
+  $('#articles').append(article.toHtml());
 
   // TODO: Activate the highlighting of any code blocks; look at the documentation for hljs to see how to do this by placing a callback function in the .each():
-  $('pre code').each();
+  $('pre code').each(function(i, block){
+    hljjs.highlightBlock(block);
+  })
 
+// add something to make a setter - think back to what we know about json
   // TODO: Show our export field, and export the new article as JSON, so it's ready to copy/paste into blogArticles.js:
+  $("#export-field").show();
+//console.log(article);
+
+let articlePretty = $("#article-json").val(JSON.stringify(article) + ",");
+console.log(articlePretty);
+//articlePretty=articlePretty.replace(/"(\w+)"\s*:/g, '$1:'); 
+//('#article-json').val(JSON.stringify(article));
+ // $(‘#article-json’).val(JSON.stringify(article) + ‘,’);
 
 };
 
 // COMMENT: Where is this function called? Why?
-// PUT YOUR RESPONSE HERE
+// initIndexPage is being called from index.html
 articleView.initIndexPage = () => {
   articles.forEach(article => $('#articles').append(article.toHtml()));
   articleView.populateFilters();
@@ -118,3 +160,5 @@ articleView.initIndexPage = () => {
   articleView.handleMainNav();
   articleView.setTeasers();
 };
+
+

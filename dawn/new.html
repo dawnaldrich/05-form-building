@@ -35,20 +35,51 @@
       <section id="write" class="tab-content">
         <h1>Create New Article</h1>
         <!-- TODO: Set up a form to accept user input for a new blog article. Remember that we need:
-           1. Article title
-           2. Article body
+           1. Article title - done
+           2. Article body -
            3. Article author
            4. Author's URL
            5. Article category
            6. Some way to know if this article is a draft or is published -->
+           <form id="new-form">
+             <label>
+             <input type="text" id="article-title" placeholder="Article Title" required></label>
+             <label>
+               <textarea name="body" id="article-body" placeholder="Article body" cols="40" rows="8" ></textarea>
+             </label>
+             <input type="text" id="article-author" placeholder="Author Name" required></label>
+             <input type="text" id="article-URL" placeholder="Article URL" required></label>
+             <input type="text" id="article-category" placeholder="Article Category" required></label>
+              <input type="checkbox" id="article-published" >Published
+            </form>
+           </form>
       </section>
 
       <section id="articles" class="tab-content">
-        <!-- NOTE: This is where we will display our article preview -->
+        <!-- NOTE: This is where we will display our article preview add handlebars-->
+        <script id="article-template" type="text/x-handlebars-template">
+          <article class="clearfix" data-author="{{author}}" data-category="{{category}}">
+            <header>
+              <h1>{{title}}</h1>
+              <div class="byline">
+                By <address><a href="{{authorUrl}}">{{author}}</a></address>
+                {{publishedOn}}
+              </div>
+            </header>
+            <section class="article-body">{{{body}}}</section>
+            <!-- <a href="#" class="read-on">Read on &rarr;</a> -->
+          </article>
+        </script>
+      
       </section>
 
       <section id="article-export">
-        <!-- TODO: Refer to the preview image to see what we will be building here: we need a container of some kind to hold a JSON export of our article. Ideally this container would show only a incipit (short preview) of the JSON and also be clickable to allow easy selection of the text it holds. What kind of element could we use for this? -->
+        <!-- TODO: Refer to the preview image to see what we will be building here: we need a container of some kind to hold a JSON export of our article. Ideally this container would show only a incipit (short preview) of the JSON and also be clickable to allow easy selection of the text it holds. What kind of element could we use for this? 
+          jquery to access by idea -->
+          <label id="export-field" class="pull-right" for="article-json">
+            <input type="text" readonly id="article-json" >
+            When finalized, copy the above JSON and paste into blogArticles.js
+          </label>
       </section>
 
     </main>
@@ -66,7 +97,7 @@
       // TODO: We will need to call a function here to initialize the behaviors on this page, once we get them built out. Why?
       // (Look at the bottom of index.html as a reference. Since we are now using our JS on two different HTML pages that have different needs as to what parts of the code they utilize, we need to build a function that inializes each page.)
       //  Hint: Look in articleView.js for a function that does this.
-
+      articleView.initNewArticlePage();
       // COMMENT: What is this function doing? Why do we need it?
       // PUT YOUR RESPONSE HERE
     </script>
